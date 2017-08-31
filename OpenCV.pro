@@ -41,3 +41,6 @@ PKGCONFIG += opencv
 #LIBS += -lopencv_contrib
 #LIBS += -lopencv_legacy
 #LIBS += -lopencv_flann
+
+RESOURCES += \
+    res/res.qrc
