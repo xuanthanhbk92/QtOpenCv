@@ -2,6 +2,8 @@
 
 Use openCV to process edge detection on image 
 
+![App Image](./image/app.png  "Application interface")
+
 
 #### Operating system:
 - linux (Ubuntu 16.04) - Supported 
