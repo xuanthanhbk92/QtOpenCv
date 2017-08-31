@@ -23,11 +23,11 @@ $make
 $./OpenCV  #run  program
 
 ```
-####Reference 
+#### Reference 
 
 You can prefer this process if you cannot build by yourseft
 
-#####Build reference on travis 
+##### Build reference on travis 
 ```
 before_install:
  - sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
