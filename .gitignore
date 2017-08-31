@@ -36,3 +36,6 @@
 *.user
 *.autosave
 
+#folder
+
+build/*
