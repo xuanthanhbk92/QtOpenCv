@@ -23,16 +23,21 @@ private slots:
     void onLoadImage(QString fileName);
     void onEdgeDetection(cv::Mat &image);
     void on_barThesh_sliderReleased();
-
     void on_actionQuit_triggered();
+
+    void on_barRatio_sliderReleased();
+
+    void on_barKernelSize_sliderReleased();
 
 private:
 
     void connectionSetup();
-
     Ui::MainWindow *ui;
-    cv::Mat src,dst,edge,srcGray;
-    int lowThreshold =10;
+    /* Canny variable */
+    cv::Mat m_src,m_dst,m_edge,m_srcGray;
+    int m_lowThreshHold =20;
+    int m_ratio = 3;
+    int m_kernelSize =3;
 
 };
 

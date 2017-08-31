@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 //    cv::Mat image = cv::imread("/home/thanh/Desktop/Anh.jpg", 1 );
 //    cout << "R (c)       = " << endl << format(image,"C"     ) << endl << endl;
 //    create image window named "My Image"
@@ -25,15 +24,15 @@ MainWindow::MainWindow(QWidget *parent) :
 //    cv::imshow("My Image", image);
     /* Show image via custom qt widget */
 //    ui->myView->showImage(image);
-
     connectionSetup();
 #if (DEBUG == 1)
     /* For debug only */
     ui->lblFileName->setText("/home/thanh/Desktop/Anh.jpg");
     onLoadImage("/home/thanh/Desktop/Anh.jpg");
 #endif
-
-
+    ui->barThesh->setValue(m_lowThreshHold);
+    ui->barKernelSize->setValue(m_kernelSize);
+    ui->barRatio->setValue(m_ratio);
 }
 
 MainWindow::~MainWindow()
@@ -43,26 +42,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnPickFile_clicked()
 {
+#if (DEBUG == 1)
+    QString appDir = "/home/thanh/Desktop/ProgramPlace/OpenCV/image";
+#else
     QString appDir = QDir::currentPath();
+#endif
     auto fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Image"), appDir, tr("Image Files (*.png *.jpg *.bmp)"));
-
+                    tr("Open Image"), appDir, tr("Image Files (*.png *.jpg *.bmp)"));
     ui->lblFileName->setText(fileName);
-    if (!fileName.isEmpty()){
+    if (!fileName.isEmpty()) {
         onLoadImage(fileName);
     }
 }
 
 void MainWindow::onLoadImage(QString fileName)
 {
-    src = cv::imread(fileName.toStdString(), 1 );
-    ui->originView->showImage(src);
-    onEdgeDetection(src);
+    m_src = cv::imread(fileName.toStdString(), 1 );
+    ui->originView->showImage(m_src);
+    onEdgeDetection(m_src);
 }
 
 void MainWindow::connectionSetup()
 {
-    connect(ui->originView,&CQtOpenCVViewerGl::imageSizeChanged,[this](int w,int h){
+    connect(ui->originView,&CQtOpenCVViewerGl::imageSizeChanged,[this](int w,int h) {
         qDebug() << "Image size:" <<w <<" : " << h;
     });
 }
@@ -70,25 +72,35 @@ void MainWindow::connectionSetup()
 void MainWindow::onEdgeDetection(cv::Mat &image)
 {
     // convert to gray
-    cvtColor(image,srcGray,COLOR_BGR2GRAY);
-    int ratio = 3;
-    int kernel_size = 3;
-    dst.create( image.size(), image.type() );
-    blur(srcGray,edge,Size(3,3));
-    Canny(edge,edge,lowThreshold,lowThreshold*ratio,kernel_size);
-    ui->processedView->showImage(edge);
-    dst = Scalar::all(0);
-    src.copyTo( dst, edge);
-    ui->processed1View->showImage(dst);
+    cvtColor(image,m_srcGray,COLOR_BGR2GRAY);
+    m_dst.create( image.size(), image.type() );
+    blur(m_srcGray,m_edge,Size(3,3));
+    Canny(m_edge,m_edge,m_lowThreshHold,m_lowThreshHold*m_ratio,m_kernelSize);
+    ui->processedView->showImage(m_edge);
+    m_dst = Scalar::all(0);
+    m_src.copyTo( m_dst, m_edge);
+    ui->processed1View->showImage(m_dst);
 }
 
 void MainWindow::on_barThesh_sliderReleased()
 {
-    lowThreshold =  ui->barThesh->value();
-    onEdgeDetection(src);
+    m_lowThreshHold =  ui->barThesh->value();
+    onEdgeDetection(m_src);
 }
 
 void MainWindow::on_actionQuit_triggered()
 {
     qApp->quit();
+}
+
+void MainWindow::on_barRatio_sliderReleased()
+{
+    m_ratio =ui->barRatio->value();
+    onEdgeDetection(m_src);
+}
+
+void MainWindow::on_barKernelSize_sliderReleased()
+{
+    m_kernelSize = ui->barKernelSize->value();
+    onEdgeDetection(m_src);
 }

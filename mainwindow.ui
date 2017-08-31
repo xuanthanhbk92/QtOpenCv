@@ -24,6 +24,16 @@
        </sizepolicy>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+       <item row="4" column="0">
+        <widget class="QLabel" name="lblRatio">
+         <property name="text">
+          <string>Ratio(1-10)</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="2">
         <widget class="QScrollBar" name="barThesh">
          <property name="sizePolicy">
@@ -31,6 +41,37 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="pageStep">
+          <number>11</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QScrollBar" name="barRatio">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10</number>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -57,7 +98,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="lblThresh">
          <property name="text">
-          <string>Low threshold</string>
+          <string>Low threshold (1-100)</string>
          </property>
         </widget>
        </item>
@@ -70,6 +111,58 @@
        </item>
        <item row="2" column="2">
         <widget class="QLineEdit" name="lblFileName"/>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLabel" name="lblRatio_2">
+         <property name="text">
+          <string>3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="lblKernelSize">
+         <property name="text">
+          <string>Kernel size(3-10)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="2">
+        <widget class="QScrollBar" name="barKernelSize">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>10</number>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLabel" name="lblKernelSize_2">
+         <property name="text">
+          <string>3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -145,6 +238,38 @@
     <hint type="destinationlabel">
      <x>1092</x>
      <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>barRatio</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lblRatio_2</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>687</x>
+     <y>100</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1107</x>
+     <y>101</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>barKernelSize</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lblKernelSize_2</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>955</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1094</x>
+     <y>124</y>
     </hint>
    </hints>
   </connection>
