@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <iostream>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QDir>
 
 using namespace std;
@@ -30,6 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lblFileName->setText("/home/thanh/Desktop/Anh.jpg");
     onLoadImage("/home/thanh/Desktop/Anh.jpg");
 #endif
+#if (DEBUG == 1)
+    m_imageLocation = "/home/thanh/Desktop/ProgramPlace/OpenCV/image";
+#else
+    m_imageLocation = QDir::currentPath();
+#endif
     ui->barThesh->setValue(m_lowThreshHold);
     ui->barKernelSize->setValue(m_kernelSize);
     ui->barRatio->setValue(m_ratio);
@@ -42,14 +48,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnPickFile_clicked()
 {
-#if (DEBUG == 1)
-    QString appDir = "/home/thanh/Desktop/ProgramPlace/OpenCV/image";
-#else
-    QString appDir = QDir::currentPath();
-#endif
     auto fileName = QFileDialog::getOpenFileName(this,
-                    tr("Open Image"), appDir, tr("Image Files (*.png *.jpg *.bmp)"));
+                    tr("Open Image"), m_imageLocation, tr("Image Files (*.png *.jpg *.bmp)"));
     ui->lblFileName->setText(fileName);
+    m_imageLocation = QFileInfo(fileName).absolutePath();
     if (!fileName.isEmpty()) {
         onLoadImage(fileName);
     }
@@ -65,7 +67,7 @@ void MainWindow::onLoadImage(QString fileName)
 void MainWindow::connectionSetup()
 {
     connect(ui->originView,&CQtOpenCVViewerGl::imageSizeChanged,[this](int w,int h) {
-        qDebug() << "Image size:" <<w <<" : " << h;
+       // qDebug() << "Image size:" <<w <<" : " << h;
     });
 }
 
