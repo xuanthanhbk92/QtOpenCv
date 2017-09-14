@@ -78,7 +78,7 @@ void MainWindow::onEdgeDetection(cv::Mat &image)
             return;
     cvtColor(image,m_srcGray,COLOR_BGR2GRAY);
     m_dst.create( image.size(), image.type() );
-    blur(m_srcGray,m_edge,Size(m_kernelSize,m_kernelSize));
+    blur(m_srcGray,m_edge,Size(3,3));
     Canny(m_edge,m_edge,m_lowThreshHold,m_lowThreshHold*m_ratio,m_kernelSize);
     ui->processedView->showImage(m_edge);
     m_dst = Scalar::all(0);
@@ -106,5 +106,10 @@ void MainWindow::on_barRatio_sliderReleased()
 void MainWindow::on_barKernelSize_sliderReleased()
 {
     m_kernelSize = ui->barKernelSize->value();
+    // force kernel size odd
+    if (!(m_kernelSize%2)){
+        m_kernelSize+=1;
+        ui->barKernelSize->setValue(m_kernelSize);
+    }
     onEdgeDetection(m_src);
 }

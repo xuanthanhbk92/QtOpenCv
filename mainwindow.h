@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <opencv2/core/core.hpp>
 
-#define DEBUG 0
+#define DEBUG 1
 
 namespace Ui {
 class MainWindow;
