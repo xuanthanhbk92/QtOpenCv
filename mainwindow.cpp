@@ -74,9 +74,11 @@ void MainWindow::connectionSetup()
 void MainWindow::onEdgeDetection(cv::Mat &image)
 {
     // convert to gray
+    if (ui->lblFileName->text().isEmpty())
+            return;
     cvtColor(image,m_srcGray,COLOR_BGR2GRAY);
     m_dst.create( image.size(), image.type() );
-    blur(m_srcGray,m_edge,Size(3,3));
+    blur(m_srcGray,m_edge,Size(m_kernelSize,m_kernelSize));
     Canny(m_edge,m_edge,m_lowThreshHold,m_lowThreshHold*m_ratio,m_kernelSize);
     ui->processedView->showImage(m_edge);
     m_dst = Scalar::all(0);
