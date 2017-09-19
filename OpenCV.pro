@@ -21,31 +21,35 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
+DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000
+
 win32 {
 message("Using win32 configuration")
-OPENCV_PATH = C:/opencv/    # Note: update with the correct OpenCV version
+OPENCV_PATH = C:/opencv    # Note: update with the correct OpenCV version
 #LIBS_PATH = "$$OPENCV_PATH/build/x86/mingw/lib" #project compiled using MINGW
-LIBS_PATH = "$$OPENCV_PATH/build/x86/vc14/lib" #project compiled using Visual C++ 2017 32bit compiler
-
+LIBS_PATH = "$$OPENCV_PATH/build/x86/vc14/lib" #project compiled using Visual C++ 2015 32bit compiler
     CONFIG(debug, debug|release) {
     LIBS     += -L$$LIBS_PATH \
                 -lopencv_core2413d \
-                -lopencv_highgui2413d   \
-                -lopencv_improc2413d
+                -lopencv_highgui2413d \
+                -lopencv_imgproc2413d
     }
 
     CONFIG(release, debug|release) {
     LIBS     += -L$$LIBS_PATH \
                 -lopencv_core2413 \
                 -lopencv_highgui2413 \
-                -lopencv_improc2413
+                -lopencv_imgproc2413
     }
 INCLUDEPATH += \
-    $$OPENCV_PATH/build/include/ \
-
+#    $$OPENCV_PATH/modules/core/include/ \ #core module
+#    $$OPENCV_PATH/modules/highgui/include/ \ #highgui module
+    $$OPENCV_PATH/build/include/ #include build path
 message("OpenCV path: $$OPENCV_PATH")
 message("Includes path: $$INCLUDEPATH")
 message("Libraries: $$LIBS")
+
 }
 
 unix {
