@@ -1,4 +1,4 @@
-# Edge detection with openCV [![Build Status](https://travis-ci.org/xuanthanhbk92/QtOpenCv.svg?branch=master)](https://travis-ci.org/xuanthanhbk92/QtOpenCv)
+# Edge detection with openCV [![Build Status](https://travis-ci.org/xuanthanhbk92/QtOpenCv.svg?branch=master)](https://travis-ci.org/xuanthanhbk92/QtOpenCv) [![GitHub version](https://badge.fury.io/gh/xuanthanhbk92%2FQtOpenCv.svg)](https://badge.fury.io/gh/xuanthanhbk92%2FQtOpenCv)
 
 Use openCV to process edge detection on image 
 
