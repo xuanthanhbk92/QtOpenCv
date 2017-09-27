@@ -14,10 +14,12 @@ CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cqtopencvviewergl.cpp
+    cqtopencvviewergl.cpp \
+    videothread.cpp
 
 HEADERS  += mainwindow.h \
-    cqtopencvviewergl.h
+    cqtopencvviewergl.h \
+    videothread.h
 
 FORMS    += mainwindow.ui
 
@@ -77,4 +79,5 @@ PKGCONFIG += opencv
 #LIBS += -lopencv_flann
 
 RESOURCES += \
-    res/res.qrc
+    res/res.qrc \
+    style.qrc
