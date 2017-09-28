@@ -121,7 +121,10 @@ bool CQtOpenCVViewerGl::showImage(const cv::Mat& image)
         cvtColor(image, mOrigImage, CV_GRAY2RGBA);
 	else if (image.channels() == 4)
 		mOrigImage = image;
-    else return false;
+    else {
+        drawMutex.unlock();
+        return false;
+    }
 
     mRenderQtImg = QImage((const unsigned char*)(mOrigImage.data),
                           mOrigImage.cols, mOrigImage.rows,

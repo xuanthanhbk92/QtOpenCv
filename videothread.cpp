@@ -17,39 +17,65 @@ void VideoThread::exitVideo()
 void VideoThread::run()
 {
     qDebug() << "Video thread running ";
-    if (ui_main->ldtVideoPath->text().isEmpty())
+    // Check error
+    if (ui_main->ldtVideoPath->text().isEmpty()) {
         return;
+    }
+    if (isProcess == true) {
+        return;
+    }
+    isProcess = true;
+    // Get workflow
     VideoCapture cap(ui_main->ldtVideoPath->text().toStdString());
     if(!cap.isOpened()) {
         qDebug() << "Error opening video stream or file";
         return ;
     }
-    if (isProcess == true)
-        return;
-    isProcess = true;
-    while(1){
-      Mat frame,m_srcGray,m_edge,m_dst;
-      // Capture frame-by-frame
-      cap >> frame;
-      // If the frame is empty, break immediately
-      if (frame.empty())
-        break;
-      // Display origin image
-      ui_main->OriginVideo->showImage(frame);
-
-      cvtColor(frame,m_srcGray,COLOR_BGR2GRAY);
-      m_dst.create( frame.size(), frame.type() );
-      blur(m_srcGray,m_edge,Size(3,3));
-      Canny(m_edge,m_edge,60,60*3,3);
-      ui_main->EgdeVideo->showImage(m_edge);
-      m_dst = Scalar::all(0);
-      frame.copyTo( m_dst, m_edge);
-//      ui->processed1View->showImage(m_dst);
-      QThread::msleep(30);
-      if (stop ==true)
-          break;
+    while(1) {
+        Mat frame,grayFrame,equalizeHistFrame, smoothingFrame,edgeDetectFrame,m_dst;
+        // Capture frame-by-frame
+        cap >> frame;
+        // If the frame is empty, break immediately
+        if (frame.empty()) {
+            qDebug() << "[ERROR] EMPTY FRAME";
+            break;
+        }
+        // Display origin image
+        ui_main->OriginVideo->showImage(frame);
+        // Convert to gray frame
+        cvtColor(frame,grayFrame,COLOR_BGR2GRAY);
+        /// Apply Histogram Equalization
+        if (ui_main->cbEnhanceMethod->isChecked()) {
+            equalizeHist( grayFrame,equalizeHistFrame );
+        } else {
+            equalizeHistFrame =grayFrame;
+        }
+        ui_main->VideoEnhance->showImage(equalizeHistFrame);
+//         ui_main->OriginVideo->showImage(frame);
+        // Apply smoothing filter
+        if (ui_main->cbSmoothingMethod->isChecked()) {
+            blur(equalizeHistFrame,smoothingFrame,Size(3,3));
+        } else {
+            smoothingFrame =equalizeHistFrame;
+        }
+        ui_main->VideoSmooth->showImage(smoothingFrame);
+        // Appy edge detection
+        if (ui_main->cbCannyEdgeDetection->isChecked()) {
+            Canny(smoothingFrame,edgeDetectFrame,60,60*3,3);
+        } else {
+            edgeDetectFrame =smoothingFrame;
+        }
+        ui_main->EgdeVideo->showImage(edgeDetectFrame);
+//        m_dst.create( frame.size(), frame.type() );
+//        m_dst = Scalar::all(0);
+//        frame.copyTo( m_dst, edgeDetectFrame);
+        // ui->processed1View->showImage(m_dst);
+        QThread::msleep(1000/50);
+        if (stop ==true) {
+            qDebug() << "[INFO] STOP VIDEO";
+            break;
+        }
     }
-
     // When everything done, release the video capture object
     isProcess =false;
     cap.release();
