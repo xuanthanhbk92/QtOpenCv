@@ -1,5 +1,5 @@
 #include "cqtopencvviewergl.h"
-
+#include <QDebug>
 
 CQtOpenCVViewerGl::CQtOpenCVViewerGl(QWidget *parent) :
 QOpenGLWidget(parent)
@@ -122,6 +122,7 @@ bool CQtOpenCVViewerGl::showImage(const cv::Mat& image)
 	else if (image.channels() == 4)
 		mOrigImage = image;
     else {
+        qDebug() << "[ERROR] Image channels is not identify";
         drawMutex.unlock();
         return false;
     }

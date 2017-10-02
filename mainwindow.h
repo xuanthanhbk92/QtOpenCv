@@ -6,7 +6,7 @@
 #include"cqtopencvviewergl.h"
 #include <opencv2/opencv.hpp>
 #include "videothread.h"
-#define DEBUG 1
+#define DEBUG 0
 
 namespace Ui
 {
@@ -40,10 +40,9 @@ private slots:
     void on_btnVideoProcess_clicked();
     void on_btnStopVideo_clicked();
     void on_actionDeepBlue_triggered();
-
     void on_actionBlack_triggered();
-
     void on_actionDefault_triggered();
+    void on_btnAdvanceSetting_toggled(bool checked);
 
 private:
 

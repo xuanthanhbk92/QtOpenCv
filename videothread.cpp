@@ -54,14 +54,18 @@ void VideoThread::run()
 //         ui_main->OriginVideo->showImage(frame);
         // Apply smoothing filter
         if (ui_main->cbSmoothingMethod->isChecked()) {
-            blur(equalizeHistFrame,smoothingFrame,Size(3,3));
+            int kernelSize = ui_main->cbSmoothKernelSize->currentText().toInt();
+            blur(equalizeHistFrame,smoothingFrame,Size(kernelSize,kernelSize));
         } else {
             smoothingFrame =equalizeHistFrame;
         }
         ui_main->VideoSmooth->showImage(smoothingFrame);
         // Appy edge detection
         if (ui_main->cbCannyEdgeDetection->isChecked()) {
-            Canny(smoothingFrame,edgeDetectFrame,60,60*3,3);
+            int kernelSize = ui_main->cbEdgeDetectionKernelSize->currentText().toInt();
+            int lowThreshold = ui_main->spnEdgeDetectCannyLowThreshold->value();
+            int ratio =3;
+            Canny(smoothingFrame,edgeDetectFrame,lowThreshold,lowThreshold*ratio,kernelSize);
         } else {
             edgeDetectFrame =smoothingFrame;
         }

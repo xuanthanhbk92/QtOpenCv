@@ -1,9 +1,7 @@
 # Edge detection with openCV [![Build Status](https://travis-ci.org/xuanthanhbk92/QtOpenCv.svg?branch=master)](https://travis-ci.org/xuanthanhbk92/QtOpenCv) [![GitHub version](https://badge.fury.io/gh/xuanthanhbk92%2FQtOpenCv.svg)](https://badge.fury.io/gh/xuanthanhbk92%2FQtOpenCv)
 
-Use openCV to process edge detection on image 
-
-![App Image](./image/app.png  "Application interface")
-
+Use openCV to process edge detection on image and video
+![App Image](./image/app1.png  "Application interface")
 
 #### Operating system:
 - linux (Ubuntu 16.04) - Supported 

@@ -34,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->barThesh->setValue(m_lowThreshHold);
     ui->barKernelSize->setValue(m_kernelSize);
     ui->barRatio->setValue(m_ratio);
+    // disable gbAdvanceSetting
+//    ui->gbAdvanceSetting->setChecked(false);
+    ui->gbAdvanceSetting->hide();
 }
 
 MainWindow::~MainWindow()
@@ -179,7 +182,7 @@ void MainWindow::onShowHistogram(Mat &image, CQtOpenCVViewerGl *view)
 void MainWindow::on_btnVideoBrowse_clicked()
 {
     auto fileName = QFileDialog::getOpenFileName(this,
-                    tr("Open Video"), m_imageLocation, tr("Video Files (*.avi)"));
+                    tr("Open Video"), m_imageLocation, tr("Video Files (*.avi *.mp4)"));
     ui->ldtVideoPath->setText(fileName);
     m_videoLocation = QFileInfo(fileName).absolutePath();
 }
@@ -211,4 +214,14 @@ void MainWindow::on_actionBlack_triggered()
 void MainWindow::on_actionDefault_triggered()
 {
     setStyleSheet(SKIN::DEFAULT);
+}
+
+
+void MainWindow::on_btnAdvanceSetting_toggled(bool checked)
+{
+  if(checked){
+      ui->gbAdvanceSetting->show();
+  }  else {
+      ui->gbAdvanceSetting->hide();
+  }
 }
